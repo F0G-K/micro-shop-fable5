@@ -1,0 +1,41 @@
+package org.example.myjinxiaocunclaude.common;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
+@Schema(name = "Result", description = "统一返回结果")
+public class Result<T> {
+
+    @Schema(description = "状态码: 200成功, 其他失败")
+    private Integer code;
+
+    @Schema(description = "提示信息")
+    private String message;
+
+    @Schema(description = "返回数据")
+    private T data;
+
+    public static <T> Result<T> success(T data) {
+        return success("操作成功", data);
+    }
+
+    public static <T> Result<T> success(String message, T data) {
+        Result<T> result = new Result<>();
+        result.setCode(200);
+        result.setMessage(message);
+        result.setData(data);
+        return result;
+    }
+
+    public static <T> Result<T> fail(String message) {
+        return fail(500, message);
+    }
+
+    public static <T> Result<T> fail(Integer code, String message) {
+        Result<T> result = new Result<>();
+        result.setCode(code);
+        result.setMessage(message);
+        return result;
+    }
+}

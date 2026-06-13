@@ -1,0 +1,19 @@
+{
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowWrite": [
+        "/Users/f0gk/.m2",
+        "/var/folders",
+        "/private/var/folders"
+      ]
+    },
+    "network": {
+      "allowedDomains": [
+        "repo.maven.apache.org",
+        "repo1.maven.org",
+        "8.136.201.57"
+      ]
+    }
+  }
+}
