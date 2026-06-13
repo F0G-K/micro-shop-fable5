@@ -74,7 +74,7 @@ public class SaleOrderServiceImpl extends ServiceImpl<SaleOrderMapper, SaleOrder
             orderItem.setPrice(product.getPrice());
             orderItem.setQuantity(itemDTO.getQuantity());
             orderItem.setAmount(product.getPrice().multiply(new BigDecimal(itemDTO.getQuantity())));
-            // 显式赋值, 不依赖数据库默认值 (远端 MySQL 全局时区为 UTC, CURRENT_TIMESTAMP 会差 8 小时)
+            // 显式赋值, 与订单主表时间保持一致, 不依赖数据库默认值
             orderItem.setCreateTime(LocalDateTime.now());
             saleOrderItemMapper.insert(orderItem);
 

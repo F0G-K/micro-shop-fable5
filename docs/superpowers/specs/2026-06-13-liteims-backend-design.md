@@ -20,7 +20,8 @@ common(Result)/ config(MybatisPlusConfig, WebConfig)/ entity×6 / mapper×6(+2 X
 6. 分类列表按 `sort` 升序返回(文档定义了排序语义但代码未排序)。
 7. 新增 `JacksonConfig`:`spring.jackson.date-format` 对 `LocalDateTime` 无效,需注册 JSR-310 序列化器实现全局 `yyyy-MM-dd HH:mm:ss`。
 8. 新增 `GlobalExceptionHandler`:业务异常(库存不足等)统一转 `Result` 格式,替代 Spring 原始 500。
-9. 订单明细 `createTime` 由 Java 显式赋值:远端 MySQL 全局时区为 UTC,依赖 `CURRENT_TIMESTAMP` 默认值会差 8 小时(该现象影响所有依赖数据库默认时间的插入)。
+9. 订单明细 `createTime` 由 Java 显式赋值,与主表时间保持一致。
+10. 远端 MySQL 全局时区原为 SYSTEM(UTC),导致 `CURRENT_TIMESTAMP` 默认值差 8 小时;已于 2026-06-13 通过 `SET PERSIST time_zone = '+8:00'` 修正(重启后保持),并用插入验证默认时间戳正确。
 
 ## 验证策略(代替单元测试,经用户确认)
 编译 → 启动连远端库 → curl 实测:登录拿 Cookie → 未登录 401 → 分类/商品/客户 CRUD → 创建订单(核对库存扣减、库存不足事务回滚)→ 订单分页/状态流转 → 仪表盘统计 → Excel 导出 → doc.html 可达。
