@@ -9,9 +9,9 @@
       <el-icon :size="56" color="rgba(255,255,255,0.25)"><DataLine /></el-icon>
     </div>
 
-    <!-- 统计卡片 -->
+    <!-- 统计卡片 (点击进入详情) -->
     <div class="stat-grid" v-loading="loading">
-      <div class="stat-card">
+      <div class="stat-card" @click="router.push('/dashboard/detail/products')">
         <div class="stat-icon" style="background: #eef2ff; color: #6366f1">
           <el-icon :size="26"><Goods /></el-icon>
         </div>
@@ -19,9 +19,10 @@
           <div class="stat-label">商品总数</div>
           <div class="stat-value">{{ stats.productCount ?? '-' }}</div>
         </div>
+        <div class="stat-more">查看详情 <el-icon><ArrowRight /></el-icon></div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card" @click="router.push('/dashboard/detail/orders')">
         <div class="stat-icon" style="background: #ecfdf5; color: #10b981">
           <el-icon :size="26"><Tickets /></el-icon>
         </div>
@@ -29,9 +30,10 @@
           <div class="stat-label">今日订单数</div>
           <div class="stat-value">{{ stats.todayOrderCount ?? '-' }}</div>
         </div>
+        <div class="stat-more">查看详情 <el-icon><ArrowRight /></el-icon></div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card" @click="router.push('/dashboard/detail/sales')">
         <div class="stat-icon" style="background: #fff7ed; color: #f59e0b">
           <el-icon :size="26"><Coin /></el-icon>
         </div>
@@ -39,6 +41,7 @@
           <div class="stat-label">销售总额 (元)</div>
           <div class="stat-value">{{ formatMoney(stats.totalSales) }}</div>
         </div>
+        <div class="stat-more">查看详情 <el-icon><ArrowRight /></el-icon></div>
       </div>
     </div>
 
@@ -136,11 +139,33 @@ onMounted(async () => {
   gap: 16px;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
   transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .stat-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
+}
+
+.stat-more {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  font-size: 12px;
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.2s;
+}
+
+.stat-card:hover .stat-more {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .stat-icon {

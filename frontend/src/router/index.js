@@ -19,6 +19,12 @@ const routes = [
         meta: { title: '仪表盘', icon: 'Odometer' }
       },
       {
+        path: 'dashboard/detail/:type',
+        name: 'DashboardDetail',
+        component: () => import('../views/DashboardDetail.vue'),
+        meta: { title: '统计详情', hidden: true }
+      },
+      {
         path: 'products',
         name: 'Product',
         component: () => import('../views/Product.vue'),

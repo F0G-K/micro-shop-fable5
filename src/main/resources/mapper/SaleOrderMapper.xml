@@ -32,4 +32,14 @@
         SELECT * FROM sale_order_item WHERE order_id = #{orderId} AND is_deleted = 0
     </select>
 
+    <select id="selectTodayOrders" resultMap="SaleOrderVoResultMap">
+        SELECT o.*, c.name AS customer_name, u.username
+        FROM sale_order o
+        LEFT JOIN customer c ON o.customer_id = c.id
+        LEFT JOIN sys_user u ON o.user_id = u.id
+        WHERE o.is_deleted = 0
+          AND o.create_time BETWEEN #{start} AND #{end}
+        ORDER BY o.create_time DESC
+    </select>
+
 </mapper>

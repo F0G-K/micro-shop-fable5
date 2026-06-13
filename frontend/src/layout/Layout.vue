@@ -10,7 +10,7 @@
       </div>
 
       <el-menu
-        :default-active="route.path"
+        :default-active="activeMenu"
         router
         class="side-menu"
         background-color="transparent"
@@ -64,10 +64,14 @@ const router = useRouter()
 const user = JSON.parse(localStorage.getItem('user') || '{}')
 const avatarText = computed(() => (user.nickname || user.username || '?').charAt(0))
 
-// 从路由配置生成菜单
+// 从路由配置生成菜单 (跳过 hidden 路由, 如统计详情页)
 const menus = router.options.routes
   .find((r) => r.path === '/')
-  .children.map((c) => ({ path: '/' + c.path, meta: c.meta }))
+  .children.filter((c) => !c.meta?.hidden)
+  .map((c) => ({ path: '/' + c.path, meta: c.meta }))
+
+// 详情页等子页面时, 侧边栏仍高亮所属的一级菜单
+const activeMenu = computed(() => '/' + route.path.split('/')[1])
 
 const handleCommand = async (command) => {
   if (command === 'logout') {
